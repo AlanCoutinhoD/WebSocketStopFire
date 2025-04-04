@@ -1,3 +1,4 @@
+require('dotenv').config();
 const WebSocketServer = require('./infrastructure/websocketServer');
 const InMemoryMessageRepository = require('./infrastructure/repositories/inMemoryMessageRepository');
 const MessageService = require('./application/messageService');

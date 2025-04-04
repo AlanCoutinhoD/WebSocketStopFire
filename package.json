@@ -9,6 +9,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "amqplib": "^0.10.7",
+    "dotenv": "^16.4.7",
     "uuid": "^9.0.0",
     "ws": "^8.13.0"
   },
