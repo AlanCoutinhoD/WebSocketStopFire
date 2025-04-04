@@ -120,20 +120,25 @@ class WebSocketServer {
                     try {
                         const parsedContent = JSON.parse(content);
                         
-                        // Find all clients with matching user_id
-                        const targetClients = Array.from(this.clients.entries())
-                            .filter(([id, ws]) => id === parsedContent.user_id.toString());
-                        
-                        // Send to all matching clients
-                        targetClients.forEach(([clientId, clientWs]) => {
-                            if (clientWs.readyState === WebSocket.OPEN) {
-                                clientWs.send(JSON.stringify({
-                                    type: 'notification',
-                                    data: parsedContent
-                                }));
-                                console.log(`Message sent to client ${clientId}`);
-                            }
-                        });
+                        // Verificar que el sensor_type sea DHT_22
+                        if (parsedContent.sensor_type === 'DHT_22') {
+                            // Find all clients with matching user_id
+                            const targetClients = Array.from(this.clients.entries())
+                                .filter(([id, ws]) => id === parsedContent.user_id.toString());
+                            
+                            // Send to all matching clients
+                            targetClients.forEach(([clientId, clientWs]) => {
+                                if (clientWs.readyState === WebSocket.OPEN) {
+                                    clientWs.send(JSON.stringify({
+                                        type: 'notification',
+                                        data: parsedContent
+                                    }));
+                                    console.log(`Message sent to client ${clientId}`);
+                                }
+                            });
+                        } else {
+                            console.log(`Message filtered out - sensor_type: ${parsedContent.sensor_type}`);
+                        }
                         
                     } catch (error) {
                         console.error('Error processing RabbitMQ message:', error);
