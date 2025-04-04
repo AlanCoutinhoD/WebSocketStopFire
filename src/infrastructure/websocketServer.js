@@ -120,7 +120,6 @@ class WebSocketServer {
                     try {
                         const parsedContent = JSON.parse(content);
                         
-                        // Verificar que el sensor_type sea DHT_22
                         if (parsedContent.sensor_type === 'DHT_22') {
                             // Find all clients with matching user_id
                             const targetClients = Array.from(this.clients.entries())
